@@ -1,0 +1,31 @@
+{% extends 'tutor/layout_docente.html' %}
+
+{% block content %}
+<h1>Calificaciones de {{ materia.subject_name }}</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Alumno</th>
+            <th>P1</th>
+            <th>P2</th>
+            <th>P3</th>
+            <th>P4</th>
+            <th>Calificación Final</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for calificacion in alumnos_calificaciones %}
+        <tr>
+            <td>{{ calificacion.student_subject.student }}</td>
+            <td>{{ calificacion.parcial_1 }}</td>
+            <td>{{ calificacion.parcial_2 }}</td>
+            <td>{{ calificacion.parcial_3 }}</td>
+            <td>{{ calificacion.parcial_4 }}</td>
+            <td>{{ calificacion.final }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

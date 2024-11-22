@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+        
+        {% endblock %}
+        | SIT
+    </title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+</head>
+
+<body>
+<header>
+    <div id="logotipo">
+        
+        <img src="{% static 'images/logo.png' %}" />
+
+        <h1> Instituto Tecnologico Superior de Atlixco </h1>
+
+    </div>
+</header>
+
+<nav>
+    <ul>
+        <li>
+            <a href="{% url 'inicio_estudiante' %}">Inicio</a>
+        </li>
+        <li><a href="{% url 'materia_alumno'%}">Materias</a></li>
+        <li>
+            <a href ="{% url 'logout'%}">Cerrar sesion</a>
+        </li>
+    </ul>
+</nav>
+<div class= "barra">
+    <samp class="esquina-izquierda"></samp>
+    <samp class="relleno-barra"></samp>
+    <samp class="esquina-derecha"></samp>
+
+
+</div>
+    <div id="content">
+
+        <div class=" box">
+                {% block content %}
+
+                {% endblock %}
+        </div>
+
+    </div>
+
+    <footer>
+       ITSA &copy;  Rodrigo Navarro - {% now 'Y'%}
+    </footer>
+
+</body>
+</html>

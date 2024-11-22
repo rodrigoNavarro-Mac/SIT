@@ -1,0 +1,105 @@
+{% extends "tutor/layout_tutor.html" %}
+{% load static %}
+
+{% block content %}
+<div>
+    <h2 class="title">Alumnos inscritos</h2>
+    <div class="content">
+        <form method="post" action="{% url 'seleccion_tutorados' %}" class="search-form" id="form-seleccion-tutorados">
+            {% csrf_token %}
+            <div class="academia-select">
+                <label for="academia">Academia:</label>
+                <div class="academia-container">
+                    <select id="academia" class="dropdown-select" name="academia" disabled>
+                        <option value="{{ academia }}">{{ academia }}</option>
+                    </select>
+                </div>
+            </div>            
+            <div class="tables-container">
+                <table class="materias-table">
+                    <thead>
+                        <tr>
+                            <th class="matricula-col">Matricula</th>
+                            <th>Nombre</th>
+                            <th class="seleccion-col">Selección</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in tutor_students %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.nombrecompleto }} </td>
+                                <td><input type="checkbox" class="styled-checkbox" name="alumno_checkbox" value="{{ user.id }}" /></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <button type="button" class="mi-boton" name="assign_tutorados" id="assignStudentsButton">Asignar tutorados</button>
+        </form>
+    </div>
+    <a href="#" class="error-link">¿Algún Error? Contacta algún administrador</a>
+</div>
+
+<!-- SweetAlerts -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const assignStudentsButton = document.getElementById('assignStudentsButton');
+        const assignStudentsForm = document.getElementById('form-seleccion-tutorados');
+
+        assignStudentsButton.addEventListener('click', function () {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: '¿Quieres asignar estos tutorados?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, asignar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const formData = new FormData(assignStudentsForm);
+                    formData.append('assign_tutorados', 'true');  // Agrega este campo para identificar la acción en el servidor
+
+                    fetch("{% url 'seleccion_tutorados' %}", {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.fire({
+                            title: data.message_type === 'success' ? '¡Éxito!' : 'Error',
+                            text: data.message,
+                            icon: data.message_type
+                        }).then(() => {
+                            if (data.message_type === 'success') {
+                                location.reload();
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire('Error', 'Ocurrió un error al asignar los tutorados.', 'error');
+                    });
+                }
+            });
+        });
+    });
+
+    function showMessage(message, type) {
+        Swal.fire({
+            title: type === 'success' ? '¡Éxito!' : 'Error',
+            text: message,
+            icon: type
+        });
+    }
+
+    // Verificar si hay un mensaje para mostrar
+    {% if message %}
+        showMessage("{{ message }}", "{{ message_type }}");
+    {% endif %}
+</script>
+{% endblock %}

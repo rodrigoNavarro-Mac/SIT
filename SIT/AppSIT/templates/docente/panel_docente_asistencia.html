@@ -1,0 +1,26 @@
+{% extends 'docente/layout_docente.html' %}
+
+{% block title %}
+Panel Docente
+{% endblock %}
+
+{% block content %}
+<h1>Hola! {{ request.user.get_full_name }}</h1>
+
+{% if materias_por_semestre %}
+    {% for semestre, subjects in materias_por_semestre.items %}
+    <div class="semester">
+        <h2 class="semester-title">Semestre {{ semestre }}</h2>
+        <ul class="buttons-list">
+            {% for subject in subjects %}
+            <li>
+                <a href="{% url 'captura_asistencia_docente' id=subject.id %}" class="mi-button" style="color: #23282b; font-weight: bold;">{{ subject.subject_name }}</a>
+            </li>
+            {% endfor %}
+        </ul>        
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No se encontraron materias asignadas. Por favor, contacte al administrador si esto es un error.</p>
+{% endif %}
+{% endblock %}

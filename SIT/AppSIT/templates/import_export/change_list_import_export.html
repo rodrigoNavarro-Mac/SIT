@@ -1,0 +1,44 @@
+{% load i18n admin_static admin_list %}
+<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_CODE != 'en-us' %}dir="rtl"{% endif %}>
+<head>
+    <title>{% block title %}{% if title %}{{ title }} | {% endif %}{% if admin.site.site_title %}{{ admin.site.site_title }}{% else %}Django site admin{% endif %}{% endblock %}</title>
+    {% block extrastyle %}{% endblock %}
+    {% block extrahead %}{% endblock %}
+    {% include 'admin/includes/static_files.html' %}
+</head>
+<body class="app-{{ opts.app_label }} model-{{ opts.model_name }} change-list" data-admin-utc-offset="{% now "Z" %}">
+    {% include 'admin/includes/nav_sidebar.html' %}
+    <div id="content" class="{% block coltype %}colM{% endblock %}">
+        {% block pretitle %}{% endblock %}
+        {% block content_title %}
+            <h1>{{ title }}</h1>
+        {% endblock %}
+        {% block post_content_title %}
+            {% include "admin/import_export/change_list_export_buttons.html" %}
+        {% endblock %}
+        {% block search %}{% admin_search_form cl %}{% endblock %}
+        {% block filter %}
+            {% if cl.has_filters %}
+            <div id="changelist-filter" class="filtered">
+                <h2>{% trans 'Filter' %}</h2>
+                {% for spec in cl.filter_specs %}
+                    {% admin_list_filter cl spec %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endblock %}
+        <form id="changelist-form" method="post" novalidate>{% csrf_token %}
+        {% block result_list %}
+            <input type="hidden" name="_export_filter" value="{{ cl.get_filters_params|urlencode }}">
+            {% include "admin/import_export/change_list_results.html" %}
+        {% endblock %}
+        {% block pagination %}{% pagination cl %}{% endblock %}
+        </form>
+    </div>
+    {% block sidebar %}{% endblock %}
+    <br class="clear">
+    <div id="footer"></div>
+</body>
+</html>

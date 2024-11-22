@@ -1,0 +1,933 @@
+/* Estilos generales */
+
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-decoration: none;
+}
+
+.box p, .box h2, .box h3, .box ul {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.box ul, .box ol {
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+body {
+    background-color: #f2f2f2;
+}
+div.center-content{
+    margin-left: 10px;
+
+
+}
+
+/* Estilo a la cabecera */
+
+header {
+    width: 1212px;
+    height: 144px;
+    background-color: #23282b;
+    margin: auto;
+}
+
+#logotipo {
+    width: 65%;
+    height: 130px;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+
+#logotipo img {
+    display: block;
+    width: 100px;
+    float: left;
+    margin-top: 20px;
+}
+
+#logotipo h1 {
+    display: block;
+    float: left;
+    margin-top: 35px;
+    margin-left: 20px;
+    letter-spacing: 2px;
+    font-weight: 100;
+    color: #ffffff;
+}
+
+/* Estilos barra de navegacion */
+
+nav {
+    width: 1250px;
+    height: 40px;
+    background-color: #23282b;
+    border: 1px solid #23282b;
+    margin: 0 auto;
+    box-shadow: 0px 22px 22px gray;
+    font-size: 15px;
+}
+
+nav ul {
+    list-style: none;
+    text-decoration: none;
+}
+
+nav ul li {
+    line-height: 40px;
+    float: left;
+}
+
+nav ul li a {
+    display: block;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: #ffffff;
+}
+
+nav ul li a:hover {
+    background: #9c0926;
+    box-shadow: 0px 0px 5px #444 inset;
+    color: white;
+    transition: all 300ms;
+}
+
+.barra {
+    width: 1250px;
+    margin: 0 auto;
+}
+
+.esquina-izquierda {
+    display: block;
+    border-left: 20px solid transparent;
+    border-top: 10px solid #2b2f30;
+    float: left;
+}
+
+.esquina-derecha {
+    display: block;
+    border-right: 20px solid transparent;
+    border-top: 10px solid #2b2f30;
+    float: right;
+}
+
+.relleno-barra {
+    display: block;
+    width: 1210px;
+    background: #2b2f30;
+    height: 10px;
+    float: left;
+}
+
+/* Estilos contenido central */
+
+#content {
+    width: 1212px;
+    min-height: 930px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    margin-top: 40px;
+}
+
+.box {
+    background: white;
+    width: 95%;
+    min-height: 930px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    margin: 0 auto;
+}
+
+.title {
+    color: #444;
+    letter-spacing: 1px;
+    font-size: 30px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+footer {
+    width: 1250px;
+    margin: 0 auto;
+    background-color: #23282b;
+    border: 1px solid #333;
+    color: #8a8a8a;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    box-shadow: 0px 0px 20px grey;
+}
+
+/* Estilos para el bloque de Materias */
+.materias-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#buscar{
+    width: fit-content;
+}
+
+.materias-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.materias-table th {
+    background-color: #f2f2f2;
+}
+
+.materias-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Estilos para la tabla de porcentaje de aprobación por materia */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+table caption {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+table th,
+table td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #bbb7b7;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Estilos para el select y botón */
+#materia-select {
+    margin-top: 20px;
+    font-size: 14px;
+    padding: 8px;
+}
+
+#show-students-btn {
+    margin-top: 10px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color:#23282b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+#show-students-btn:hover {
+    background-color: #970707;
+}
+
+/* Estilos para la lista de estudiantes */
+#students-by-subject {
+    list-style: none;
+    margin-top: 20px;
+}
+
+#students-by-subject li {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+/* Estilos para la lista de botones de materias */
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+ul.buttons-list {
+    list-style: none;
+    padding: 0;
+}
+
+ul.buttons-list li {
+    margin-bottom: 10px;
+}
+
+ul.buttons-list li button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #23282b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+ul.buttons-list li button:hover {
+    background-color: #9c0926;
+}
+
+/* Estilos para la lista de estudiantes */
+.students-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.students-list li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.students-list li span {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.students-list li input[type="number"] {
+    width: 60px;
+    margin-right: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.students-list li input[type="number"]:focus {
+    outline: none;
+    border-color: #23282b;
+    box-shadow: 0 0 5px #9c0926;
+}
+
+.login-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
+
+.login-form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #23282b;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-form input[type="submit"]:hover {
+    background-color: #9c0926;
+}
+
+.alert-warning{
+    background: #970707;
+    text-align: center;
+}
+
+.dropdown-select {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+/* Estilos para el dropdown cuando está enfocado */
+.dropdown-select:hover {
+    outline: none;
+    border-color: #23282b;
+    box-shadow: 0 0 0 0.2rem #9c0926
+}
+
+/* Estilos para el botón personalizado */
+.mi-boton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #23282b; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transición para el cambio de color de fondo al pasar el mouse */
+}
+
+.mi-boton:hover {
+    background-color: #9c0926; /* Cambiar el color de fondo cuando el mouse pasa por encima */
+}
+
+/* Estilos para el formulario de búsqueda */
+.search-form {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.search-form input[type="text"] {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-form button {
+    padding: 10px 15px;
+    background-color: #23282b; 
+    border: none;
+    color: white; 
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #9c0926;
+}
+
+
+/* Estilos para el título de la materia */
+.materia-title {
+    color: #23282b; /* Utiliza el color oscuro para el título, similar a la cabecera */
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Estilos para el formulario y lista de estudiantes */
+.form-students {
+    background-color: #fff; /* Fondo blanco para resaltar el formulario */
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.students-list {
+    list-style: none;
+    padding: 0;
+}
+
+.students-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.students-list li span {
+    flex-basis: 30%; /* Ajusta según sea necesario */
+    font-weight: bold;
+}
+
+.students-list input[type="number"] {
+    width: 50px; /* Ajusta según sea necesario */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Asegurarse de que el botón 'Guardar Calificaciones' se ajuste al estilo */
+.mi-boton {
+    display: block;
+    width: 100%; /* Hacer que el botón ocupe todo el ancho del contenedor */
+    margin-top: 15px;
+}
+
+/* Estilos para separador entre alumnos */
+.students-list li {
+    border-bottom: 1px solid #ddd; /* Línea de separación */
+    padding-bottom: 10px; /* Espacio al final de cada elemento */
+}
+
+/* Eliminar el borde en el último elemento */
+.students-list li:last-child {
+    border-bottom: none;
+}
+
+
+/* Estilos para contenedor de las tablas */
+.tables-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Estilos específicos para las tablas de docentes y materias */
+  .docentes-table-container,
+  .materias-table-container {
+    flex-basis: 48%; /* Cambia este valor según sea necesario */
+  }
+  
+  .docentes-table,
+  .materias-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .docentes-table th,
+  .docentes-table td,
+  .materias-table th,
+  .materias-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .docentes-table th,
+  .materias-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .docentes-table tbody tr:nth-child(even),
+  .materias-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Estilos para checkbox personalizados */
+  .styled-checkbox {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .styled-checkbox:checked {
+    background-color: #9c0926; /* Cambia el color del fondo cuando el checkbox está seleccionado */
+  }
+  
+  /* Estilos para el botón de asignar materias */
+  .mi-boton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #23282b; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transición para el cambio de color de fondo al pasar el mouse */
+  }
+  
+  .mi-boton:hover {
+    background-color: #9c0926; /* Cambiar el color de fondo cuando el mouse pasa por encima */
+  }
+
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Centra verticalmente los elementos */
+  }
+  
+  /* Estilos específicos para el botón de asignar materias */
+  #assign-materias {
+    padding: 8px 12px; /* Ajusta el padding para hacer el botón más pequeño */
+    width: auto; /* Ajusta el ancho automáticamente para que se ajuste al contenido */
+    margin-left: auto; /* Mueve el botón al lado derecho */
+  }
+  
+  /* Estilos para el label del turno */
+  .header-container label {
+    display: flex;
+    align-items: center; /* Centra verticalmente el contenido del label */
+  }
+
+  /* Estilos para la etiqueta "Turno" */
+label {
+    margin-right: 10px; /* Ajusta el margen derecho según sea necesario */
+    margin-bottom: 20px; /* Levanta la etiqueta unos 5px */
+  }
+
+  /* Estilos para el hipervínculo de error */
+.error-link {
+    display: block;
+    text-align: center;
+    color: #9c0926;
+    text-decoration: underline;
+    margin-top: 15px;
+  }
+  
+
+
+
+/* Media queries para hacer la página responsiva */
+@media screen and (max-width: 768px) {
+    header {
+        width: 100%;
+    }
+
+    nav, .barra {
+        width: 100%;
+    }
+
+    #logotipo img {
+        width: 80px;
+    }
+
+    #logotipo h1 {
+        font-size: 18px;
+        margin-top: 25px;
+        margin-left: 10px;
+    }
+
+    .tables-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .docentes-table-container,
+    .materias-table-container {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .docentes-table,
+    .materias-table {
+        font-size: 14px;
+    }
+
+    .mi-boton {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+
+    .header-container label {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 10px;
+    }
+
+    label[for="turno"] {
+        margin-bottom: 10px;
+        margin-top: 5px;
+    }
+}
+
+/* Media queries para pantallas más pequeñas */
+@media screen and (max-width: 480px) {
+    #logotipo img {
+        width: 60px;
+    }
+
+    #logotipo h1 {
+        font-size: 16px;
+        margin-top: 20px;
+    }
+
+    .mi-boton {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .header-container label {
+        margin-bottom: 5px;
+    }
+
+    label[for="turno"] {
+        margin-bottom: 5px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .box {
+        padding: 15px;
+    }
+
+    .docentes-table th,
+    .docentes-table td,
+    .materias-table th,
+    .materias-table td {
+        padding: 5px;
+    }
+}
+
+
+.matricula-col {
+    width: 50px; /* Ajusta el ancho según sea necesario */
+}
+
+.seleccion-col {
+    width: 50px; /* Ajusta el ancho según sea necesario */
+}
+
+
+/* Ajustes para la tabla de alumnos */
+.alumnos-table {
+    width: 60%; /* Reducir el ancho de la tabla */
+}
+
+/* Ajustes para el bloque group-info */
+.group-info {
+    width: 30%; /* Reducir el ancho del bloque group-info */
+}
+
+/* Contenedor para la tabla de alumnos y el bloque group-info */
+.tables-container {
+    display: flex;
+    justify-content: space-between; /* Coloca los elementos en los extremos */
+    align-items: flex-start; /* Alinea los elementos en la parte superior */
+}
+
+/* Estilos para la tabla de alumnos */
+.alumnos-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.alumnos-table th,
+.alumnos-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.alumnos-table th {
+    background-color: #f2f2f2;
+}
+
+.alumnos-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Estilos para el contenedor de academia y el botón */
+.academia-container {
+    display: flex; /* Utiliza flexbox para alinear los elementos horizontalmente */
+    align-items: center; /* Alinea los elementos verticalmente */
+}
+
+.academia-container .dropdown-select {
+    margin-right: 10px; /* Agrega un margen a la derecha para separar el dropdown del botón */
+}
+
+/* Estilos para el botón de búsqueda */
+#buscar-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #23282b; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transición para el cambio de color de fondo al pasar el mouse */
+}
+
+#buscar-btn:hover {
+    background-color: #9c0926; /* Cambiar el color de fondo cuando el mouse pasa por encima */
+}
+
+.materia-name {
+    color: #9c0926; /* Cambia el color del texto */
+    font-weight: bold; /* Hace el texto más grueso */
+}
+
+
+/* Estilos para el mensaje emergente */
+.message-popup {
+    display: none; /* Oculta el mensaje emergente por defecto */
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
+    color: white; /* Color del texto */
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    max-width: 80%; /* Anchura máxima del mensaje */
+    text-align: center; /* Centra el texto */
+}
+
+.message-popup p {
+    margin: 0; /* Elimina el margen predeterminado del párrafo */
+}
+
+.message-popup .close-popup {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.error-link {
+    display: block;
+    text-align: center;
+    color: #9c0926;
+    text-decoration: underline;
+    margin-top: 15px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #f5f5f5;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.materias-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.materias-table th, .materias-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.materias-table th {
+    background-color: #f5f5f5;
+}
+
+.mi-boton {
+    background-color: #23282b;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+}
+
+.mi-boton:hover {
+    background-color: #9c0926;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.tables-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .card {
+        margin-bottom: 15px;
+    }
+
+    .tables-container {
+        flex-direction: column;
+    }
+
+    .button-container {
+        margin-top: 15px;
+    }
+}
+
+
+/* Estilos para las tarjetas de estudiantes y lista de materias */
+.student-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.student-card h3 {
+    margin-bottom: 15px;
+    color: #23282b;
+    font-size: 20px;
+}
+
+.subject-list {
+    list-style: none;
+    padding: 0;
+}
+
+.subject-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.subject-item:last-child {
+    border-bottom: none;
+}
+
+.subject-code {
+    color: #9c0926;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.subject-name {
+    flex-grow: 1;
+}
+
+.subject-credits, .subject-period {
+    color: #555;
+}

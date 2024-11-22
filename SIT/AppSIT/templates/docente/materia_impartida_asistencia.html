@@ -1,0 +1,65 @@
+{% extends "docente/layout_docente.html" %}
+
+{% block content %}
+    <h1 class="title">Asistencia para {{ class_session.teacher_subject.subject.subject_name }} - {{ class_session.date }}</h1>
+
+    <form method="post" id="attendanceForm">
+        {% csrf_token %}
+        <div class="tables-container"> <!-- Contenedor para la tabla -->
+            <table class="materias-table">
+                <thead>
+                    <tr>
+                        <th>Estudiante</th>
+                        <th>Asistencia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for attendance in attendance_records %}
+                    <tr>
+                        <td>{{ attendance.student.nombrecompleto }}</td>
+                        <td>
+                            <select class="dropdown-select" name="status_{{ attendance.student.id }}">
+                                <option value="Presente" {% if attendance.status == 'Presente' %}selected{% endif %}>Presente</option>
+                                <option value="Ausente" {% if attendance.status == 'Ausente' %}selected{% endif %}>Ausente</option>
+                            </select>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <button type="submit" class="mi-boton">Guardar Asistencia</button>
+    </form>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+document.getElementById('attendanceForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¿Quieres guardar los cambios en la asistencia?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, guardar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            this.submit();
+        }
+    });
+});
+
+{% if messages %}
+    {% for message in messages %}
+        Swal.fire({
+            title: 'Asistencia Actualizada',
+            text: "{{ message }}",
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    {% endfor %}
+{% endif %}
+</script>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "layout_estudiante.html" %}
+{% block title %}
+Materias
+{% endblock %}
+
+{% block content %}
+<h1>Selecciona un Semestre</h1>
+    <form method="get">
+      <select name="semester" onchange="this.form.submit()" class="dropdown-select">
+        <option value="">--Selecciona un Semestre--</option>
+        {% for semester in semesters %}
+        <option value="{{ semester }}" {% if semester|stringformat:"s" == selected_semester %}selected{% endif %}>{{ semester }}</option>
+        {% endfor %}
+    </select>
+    </form>
+
+    {% if subject_details %}
+    <h2>Materias del Semestre {{ selected_semester }}</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Clave</th>
+                <th>Materia</th>
+                <th>Créditos</th>
+                <th>Docente</th>
+                <th>P1</th>
+                <th>P2</th>
+                <th>P3</th>
+                <th>P4</th>
+                <th>Final</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detail in subject_details %}
+            <tr>
+                <td>{{ detail.subject.clave }}</td>
+                <td>{{ detail.subject.subject_name }}</td>
+                <td>{{ detail.subject.credits }}</td>
+                <td>{{ detail.teacher }}</td>
+                {% if detail.grade %}
+                <td>{{ detail.grade.parcial_1 }}</td>
+                <td>{{ detail.grade.parcial_2 }}</td>
+                <td>{{ detail.grade.parcial_3 }}</td>
+                <td>{{ detail.grade.parcial_4 }}</td>
+                <td>{{ detail.grade.final }}</td>
+                {% else %}
+                <td>N/A</td>
+                <td>N/A</td>
+                <td>N/A</td>
+                <td>N/A</td>
+                <td>N/A</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+{% endblock %}

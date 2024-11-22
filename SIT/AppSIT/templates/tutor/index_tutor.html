@@ -1,0 +1,58 @@
+{% extends "tutor/layout_tutor.html" %}
+{% load static %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+  <!-- Saludo al usuario -->
+  <h1>Bienvenido {{ request.user.nombrecompleto }} </h1>
+  
+  <!-- Sección de noticias o eventos -->
+  <section>
+    <h2>Noticias y Eventos</h2>
+    <!-- Noticias o eventos de la universidad -->
+    <article>
+      <h3>Evento de Bienvenida</h3>
+      <p>Únete a nuestro evento de bienvenida para estudiantes nuevos este viernes a las 5 pm.</p>
+      <!-- Imagen del evento -->
+      <img src="{% static 'images/imagen_evento_bienvenida.jpg' %}" alt="Evento de Bienvenida">
+    </article>
+    <article>
+      <h3>Conferencia sobre Tecnología</h3>
+      <p>Asiste a la conferencia sobre las últimas tendencias en tecnología el próximo lunes.</p>
+      <!-- Imagen de la conferencia -->
+      <img src="{% static 'images/imagen_conferencia_tecnologia.jpg' %}" alt="Conferencia sobre Tecnología">
+    </article>
+  </section>
+
+  <!-- Galería de imágenes -->
+  <section>
+    <h2>Galería del Campus</h2>
+    <div class="galeria">
+      <img src="{% static 'images/imagen_campus_1.jpg' %}" alt="Vista del Campus">
+      <img src="{% static 'images/imagen_campus_2.jpg' %}" alt="Estudiantes en el Campus">
+      <!-- Más imágenes del campus -->
+    </div>
+  </section>
+
+  <!-- Anuncios académicos -->
+  <section>
+    <h2>Anuncios Académicos</h2>
+    <div class="anuncios">
+      <p>Registro para el próximo semestre inicia el 15 de enero.</p>
+      <p>La biblioteca estará cerrada por mantenimiento del 20 al 23 de marzo.</p>
+      <!-- Más anuncios -->
+    </div>
+  </section>
+
+  <!-- Actividades extracurriculares -->
+  <section>
+    <h2>Actividades Extracurriculares</h2>
+    <div class="actividades">
+      <p>Únete al club de robótica. Reuniones todos los miércoles a las 4 pm.</p>
+      <p>Próximo torneo de fútbol interfacultades. Inscripciones abiertas hasta el 30 de abril.</p>
+      <!-- Más actividades -->
+    </div>
+  </section>
+
+{% endblock %}

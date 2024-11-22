@@ -1,0 +1,64 @@
+{% extends "tutor/layout_tutor.html" %}
+
+{% block title %}Seleccionar Alumno{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="title">Seleccionar Alumno</h1>
+
+    <form id="selectStudentForm" method="post" action="{% url 'seleccion_alumno' %}" class="form-students">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="student_id">Alumno:</label>
+            <select name="student_id" id="student_id" class="dropdown-select">
+                <option value="">Seleccione un alumno</option>
+                {% for student_group in estudiantes %}
+                <option value="{{ student_group.student.id }}">{{ student_group.student.nombrecompleto }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="button-container">
+            <button type="button" class="mi-boton" id="viewProgressButton">Ver Seguimiento</button>
+        </div>
+    </form>
+
+    <h2 class="title">Lista de Alumnos y Materias</h2>
+        <div class="card-body">
+            {% for student_group in estudiantes %}
+            <div class="student-card">
+                <h3>{{ student_group.student.nombrecompleto }}</h3>
+                <ul class="subject-list">
+                    {% for subject in student_group.student.studentsubject_set.all %}
+                    <li class="subject-item">
+                        <span class="subject-code">{{ subject.subject.clave }}</span> 
+                        <span class="subject-name">{{ subject.subject.subject_name }}</span>
+                        <span class="subject-credits">{{ subject.subject.credits }} Créditos</span>
+                        <span class="subject-period">{{ subject.subject.year }} {{ subject.subject.period }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+</div>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.getElementById('viewProgressButton').addEventListener('click', function() {
+    const studentSelect = document.getElementById('student_id');
+    if (studentSelect.value === "") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Debe seleccionar un alumno para ver el seguimiento académico.',
+            confirmButtonText: 'Aceptar'
+        });
+    } else {
+        const form = document.getElementById('selectStudentForm');
+        form.submit();
+    }
+});
+</script>
+
+{% endblock %}

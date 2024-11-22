@@ -1,0 +1,80 @@
+{% extends "coordinador/layout_coordinador.html" %}
+{% load static %}
+
+{% block title %}Asignación de tutores{% endblock %}
+
+{% block content %}
+<div class="box">
+    <h2 class="title">Asignación de Tutores a Grupos</h2>
+    <form method="post" action="{% url 'asignacion_tutores' %}" id="asignacionTutoresForm">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="group">Grupo:</label>
+            <select id="group" name="group_name" required class="dropdown-select">
+                <option value="A">A</option>
+                <option value="B">B</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="teacher">Tutor:</label>
+            <select id="teacher" name="teacher" class="dropdown-select">
+                {% for teacher in teachers %}
+                <option value="{{ teacher.id }}">{{ teacher.nombrecompleto }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="semester">Semestre:</label>
+            <input type="number" id="semester" name="semester" min="1" max="9" required class="dropdown-select">
+        </div>
+        <button type="button" class="mi-boton" id="assignTutorButton">Asignar Tutor</button>
+    </form>
+</div>
+
+<!-- SweetAlerts -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('asignacionTutoresForm');
+    const assignButton = document.getElementById('assignTutorButton');
+
+    assignButton.addEventListener('click', function () {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Quieres asignar este tutor al grupo?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, asignar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    Swal.fire({
+                        title: data.message_type === 'success' ? 'Éxito' : 'Error',
+                        text: data.message,
+                        icon: data.message_type
+                    }).then(() => {
+                        if (data.message_type === 'success') {
+                            window.location.reload();  
+                        }
+                    });
+                })
+                .catch(error => {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Hubo un problema con la asignación. Por favor, intenta de nuevo.',
+                        icon: 'error'
+                    });
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

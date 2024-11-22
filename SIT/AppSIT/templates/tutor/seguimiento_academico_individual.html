@@ -1,0 +1,108 @@
+{% extends "tutor/layout_tutor.html" %}
+
+{% block title %}Seguimiento Académico Individual{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form method="post" action="{% url 'seleccion_alumno' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="student_id">Alumno:</label>
+            <select name="student_id" id="student_id" class="dropdown-select" onchange="this.form.submit()">
+                <option value="">Seleccione un alumno</option>
+                {% for student_group in estudiantes %}
+                <option value="{{ student_group.student.id }}" {% if student_group.student.id == student.id %}selected{% endif %}>{{ student_group.student.nombrecompleto }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+
+    {% if student %}
+    <h1 class="title">Seguimiento Académico de {{ student.nombrecompleto }}</h1>
+
+    <div class="seguimiento-academico">
+        {% for item in seguimiento_academico %}
+        <div class="card">
+            <div class="card-header">
+                <h2>{{ item.subject.subject_name }} ({{ item.subject.clave }})</h2>
+                <p>Créditos: {{ item.subject.credits }} | Año: {{ item.subject.year }} | Período: {{ item.subject.period }}</p>
+            </div>
+            <div class="card-body">
+                <h3>Calificaciones</h3>
+                <table class="materias-table">
+                    <thead>
+                        <tr>
+                            <th>Parcial 1</th>
+                            <th>Parcial 2</th>
+                            <th>Parcial 3</th>
+                            <th>Parcial 4</th>
+                            <th>Calificación Final</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for grade in item.grades %}
+                        <tr>
+                            <td>{{ grade.parcial_1 }}</td>
+                            <td>{{ grade.parcial_2 }}</td>
+                            <td>{{ grade.parcial_3 }}</td>
+                            <td>{{ grade.parcial_4 }}</td>
+                            <td>{{ grade.final }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <h3>Asistencias</h3>
+                <table class="materias-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for attendance in item.attendances %}
+                        <tr>
+                            <td>{{ attendance.class_session.date|date:"d/m/Y" }}</td>
+                            <td>{{ attendance.status }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan="2"><strong>Total de Faltas:</strong> {{ item.total_absent }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><strong>Porcentaje de Asistencia:</strong> {{ item.attendance_percentage|floatformat:2 }}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h3>Sesiones de Tutoría</h3>
+    <table class="materias-table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Asistencia</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tutoring in tutorings %}
+            <tr>
+                <td>{{ tutoring.session.date|date:"d/m/Y" }}</td>
+                <td>{{ tutoring.session.is_group|yesno:"Grupal,Individual" }}</td>
+                <td>{{ tutoring.is_present|yesno:"Presente,Ausente" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="button-container">
+        <a href="{% url 'seleccion_alumno' %}" class="mi-boton">Volver</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

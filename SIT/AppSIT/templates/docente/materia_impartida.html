@@ -1,0 +1,68 @@
+{% extends "docente/layout_docente.html" %}
+{% load my_filters %} <!-- Asegúrate de cargar el filtro personalizado -->
+
+{% block title %}
+Materia Impartida
+{% endblock %}
+
+{% block content %}
+<h1>{{ materia.subject_name }}</h1>
+
+<form method="post" action="">
+    {% csrf_token %}
+    <input type="hidden" name="materia_id" value="{{ materia.id }}">
+
+    <div class="semester">
+        <ul class="students-list">
+            {% for item in estudiantes_con_calificaciones %}
+            <li>
+                <span>{{ item.estudiante.nombrecompleto }}</span>
+                {% for parcial in '1234' %}
+                    {% with calificacion=item.calificaciones|get_item:"parcial_"|add:parcial %}
+                    <input type="number" name="grades_{{ item.estudiante.id }}_{{ parcial }}" min="0" max="100" value="{{ calificacion }}" placeholder="P{{ parcial }}" class="{% if calificacion < 70 %}complementaria{% endif %}">
+                    {% endwith %}
+                {% endfor %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <button type="button" class="mi-boton" id="saveButton">Guardar Calificaciones</button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+document.getElementById('saveButton').addEventListener('click', function() {
+    Swal.fire({
+        title: 'Confirmar',
+        text: "¿Estás seguro de que deseas guardar las calificaciones?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, guardar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.querySelector('form').submit();
+        }
+    });
+});
+
+{% if messages %}
+    {% for message in messages %}
+        Swal.fire({
+            icon: '{% if message.tags == "success" %}success{% elif message.tags == "error" %}error{% else %}info{% endif %}',
+            title: '{{ message }}',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    {% endfor %}
+{% endif %}
+</script>
+{% endblock %}
+
+<style>
+    .complementaria {
+        border: 2px solid red;
+    }
+</style>

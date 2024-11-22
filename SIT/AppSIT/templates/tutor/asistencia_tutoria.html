@@ -1,0 +1,116 @@
+{% extends "tutor/layout_tutor.html" %}
+
+{% block content %}
+<div>
+    <div class="title">Asistencia de Tutoría</div>
+    <form id="attendanceForm" method="post" action="{% url 'asistencia_tutoria' %}">
+        {% csrf_token %}
+        <div class="dropdown-select">
+            <label for="session_type">Tipo de sesión:</label>
+            <select name="session_type" id="session_type" onchange="sessionTypeChanged()" class="dropdown-select">
+                <option value="group">Grupal</option>
+                <option value="individual">Individual</option>
+            </select>
+        </div>
+        <div id="individual_student_select" style="display: none;">
+            <label for="individual_student_id">Estudiante:</label>
+            <select name="individual_student_id" id="individual_student_id" class="dropdown-select">
+                {% for student in students %}
+                <option value="{{ student.id }}">{{ student.nombrecompleto }}</option>
+                {% endfor %}
+            </select>
+            <label for="is_present_individual">Asistencia:</label>
+            <select name="is_present_individual" id="is_present_individual" class="dropdown-select">
+                <option value="on">Presente</option>
+                <option value="">Ausente</option>
+            </select>
+        </div>
+        <div id="group_attendance_table" class="materias-table-container">
+            <table class="materias-table">
+                <thead>
+                    <tr>
+                        <th>Estudiante</th>
+                        <th>Asistencia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for student in students %}
+                    <tr>
+                        <td>{{ student.nombrecompleto }}</td>
+                        <td>
+                            <input type="hidden" name="user_ids" value="{{ student.id }}">
+                            <select name="is_present_{{ student.id }}" class="dropdown-select">
+                                <option value="">Ausente</option>
+                                <option value="on">Presente</option>
+                            </select>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button type="submit" class="mi-boton">Guardar Asistencia</button>
+        </div>
+    </form>
+</div>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function sessionTypeChanged() {
+    var sessionType = document.getElementById("session_type").value;
+    var individualSelect = document.getElementById("individual_student_select");
+    var groupTable = document.getElementById("group_attendance_table");
+    if (sessionType === "individual") {
+        individualSelect.style.display = "block";
+        groupTable.style.display = "none";
+    } else {
+        individualSelect.style.display = "none";
+        groupTable.style.display = "block";
+    }
+}
+
+document.getElementById('attendanceForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'Vas a guardar la asistencia de tutoría.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, guardar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: 'Asistencia registrada correctamente.'
+                }).then(() => {
+                    location.reload();
+                });
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error al guardar la asistencia.'
+                });
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

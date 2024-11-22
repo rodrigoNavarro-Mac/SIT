@@ -1,0 +1,138 @@
+{% extends "coordinador/layout_coordinador.html" %}
+{% load static %}
+
+{% block title %}Asignación de materias{% endblock %}
+
+{% block content %}
+<form method="post" action="{% url 'asignacion_materia_coordinador' %}" id="asignacionForm">
+  {% csrf_token %}
+  <div class="box">
+    <div class="tables-container" style="margin-bottom: 20px;">
+      <h3>Horarios por día</h3>
+      <div class="horario-item" style="margin-bottom: 10px;">
+          <label for="schedule_monday">Lunes:</label>
+          <input type="text" id="schedule_monday" name="schedule_monday" placeholder="HH:MM-HH:MM" class="horario-input">
+      </div>
+      <div class="horario-item" style="margin-bottom: 10px;">
+          <label for="schedule_tuesday">Martes:</label>
+          <input type="text" id="schedule_tuesday" name="schedule_tuesday" placeholder="HH:MM-HH:MM" class="horario-input">
+      </div>
+      <div class="horario-item" style="margin-bottom: 10px;">
+          <label for="schedule_wednesday">Miércoles:</label>
+          <input type="text" id="schedule_wednesday" name="schedule_wednesday" placeholder="HH:MM-HH:MM" class="horario-input">
+      </div>
+      <div class="horario-item" style="margin-bottom: 10px;">
+          <label for="schedule_thursday">Jueves:</label>
+          <input type="text" id="schedule_thursday" name="schedule_thursday" placeholder="HH:MM-HH:MM" class="horario-input">
+      </div>
+      <div class="horario-item">
+          <label for="schedule_friday">Viernes:</label>
+          <input type="text" id="schedule_friday" name="schedule_friday" placeholder="HH:MM-HH:MM" class="horario-input">
+      </div>
+    </div>
+    <h2 class="title">Listado de docentes de la academia</h2>
+    <div class="header-container">
+      <button type="button" id="assign-materias" class="mi-boton">Asignar Materias</button>
+    </div>
+    <div class="tables-container">
+      <div class="docentes-table-container">
+        <table class="docentes-table">
+          <thead>
+            <tr>
+              <th>Número de Trabajador</th>
+              <th>Nombre del Docente</th>
+              <th>Seleccionar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for teacher in teachers %}
+            <tr>
+              <td>{{ teacher.username }}</td>
+              <td>{{ teacher.nombrecompleto }}</td>
+              <td><input type="checkbox" class="styled-checkbox" name="docente_checkbox" value="{{ teacher.id }}" /></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="materias-table-container">
+        <table class="materias-table">
+          <thead>
+            <tr>
+              <th>Clave</th>
+              <th>Nombre de la Materia</th>
+              <th>Seleccionar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for subject in subjects %}
+            <tr>
+              <td>{{ subject.clave }}</td>
+              <td>{{ subject.subject_name }}</td>
+              <td><input type="checkbox" class="styled-checkbox" name="materia_checkbox" value="{{ subject.id }}" /></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <a href="#" class="error-link">¿Existe un error en la asignación? Contacta a algún administrador</a>
+  </div>
+</form>
+
+<!-- SweetAlerts -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('asignacionForm');
+    const assignButton = document.getElementById('assign-materias');
+
+    assignButton.addEventListener('click', function () {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Quieres asignar estas materias a los docentes seleccionados?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, asignar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    let message = '';
+                    if (data.success_count > 0) {
+                        message += `${data.success_count} asignaciones creadas correctamente.\n`;
+                        data.success_messages.forEach(msg => {
+                            message += `${msg}\n`;
+                        });
+                    }
+                    if (data.error_count > 0) {
+                        message += `${data.error_count} asignaciones ya existían y fueron actualizadas.\n`;
+                        data.error_messages.forEach(msg => {
+                            message += `${msg}\n`;
+                        });
+                    }
+                    Swal.fire({
+                        title: 'Resultado',
+                        text: message,
+                        icon: 'success'
+                    });
+                })
+                .catch(error => {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Hubo un problema con la asignación. Por favor, intenta de nuevo.',
+                        icon: 'error'
+                    });
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

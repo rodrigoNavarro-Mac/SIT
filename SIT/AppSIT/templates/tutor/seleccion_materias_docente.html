@@ -1,0 +1,134 @@
+{% extends "tutor/layout_tutor.html" %}
+{% load static %}
+
+{% block content %}
+<div>
+    <h2 class="title">Selección de materias</h2>
+
+    <div class="header-container">
+        <label for="academia">Academia:</label>
+        <select class="dropdown-select" id="academia">
+          {% for code, name in academias %}
+          <option value="{{ code }}" {% if code == selected_academia %}selected{% endif %}>{{ name }}</option>
+          {% endfor %}
+        </select>
+    </div>
+
+    <div class="tables-container">
+        <div class="materias-table-container">
+            <h3>Lista de materias</h3>
+            <table class="materias-table">
+                <thead>
+                    <tr>
+                        <th>Clave</th>
+                        <th>Semestre</th>
+                        <th>Créditos</th>
+                        <th>Materia</th>
+                        <th>Selección</th>
+                    </tr>
+                </thead>
+                <tbody id="materias-tbody">
+                    {% for materia in materias %}
+                    <tr>
+                        <td>{{ materia.subject.clave }}</td>
+                        <td>{{ materia.subject.semester }}</td>
+                        <td>{{ materia.subject.credits }}</td>
+                        <td>{{ materia.subject.subject_name }}</td>
+                        <td><input type="checkbox" name="materia[]" value="{{ materia.subject.id }}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="materias-table-container">
+            <h3>Lista de Alumnos</h3>
+            <table class="materias-table">
+                <thead>
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Nombre</th>
+                        <th>Selección</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alumno in alumnos %}
+                    <tr>
+                        <td>{{ alumno.student.username }}</td> <!-- Asume que 'username' es la matrícula -->
+                        <td>{{ alumno.student.nombrecompleto }}</td>
+                        <td><input type="checkbox" name="seleccion[]" value="{{ alumno.student.id }}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <button id="assign-materias" class="mi-boton">Asignar materias a grupo</button>
+    </div>
+
+    <a href="#" class="error-link">En caso de error de asignación de materias a algún alumno favor de contactar un administrador</a>
+</div>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.getElementById('assign-materias').addEventListener('click', function() {
+    const materiasSeleccionadas = [...document.querySelectorAll('input[name="materia[]"]:checked')].map(el => el.value);
+    const alumnosSeleccionados = [...document.querySelectorAll('input[name="seleccion[]"]:checked')].map(el => el.value);
+
+    if (materiasSeleccionadas.length === 0 || alumnosSeleccionados.length === 0) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Debes seleccionar al menos una materia y un alumno.'
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: `Vas a asignar ${materiasSeleccionadas.length} materias a ${alumnosSeleccionados.length} alumnos.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, asignar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const formData = new FormData();
+            materiasSeleccionadas.forEach(id => formData.append('materia[]', id));
+            alumnosSeleccionados.forEach(id => formData.append('seleccion[]', id));
+
+            fetch('{% url "seleccion_materias_docente" %}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                Swal.fire({
+                    icon: data.message_type,
+                    title: data.message_type === 'success' ? '¡Éxito!' : 'Error',
+                    text: data.message
+                });
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error al asignar las materias.'
+                });
+            });
+        }
+    });
+});
+
+document.getElementById('academia').addEventListener('change', function() {
+    const academia = this.value;
+    window.location.href = `{% url 'seleccion_materias_docente' %}?academia=${academia}`;
+});
+</script>
+{% endblock %}
