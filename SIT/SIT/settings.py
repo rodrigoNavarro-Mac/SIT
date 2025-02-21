@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-$^po@#il^jpu%0-q^%383jdq5d%)5%$fawn$f^!h@v%rx6!5@7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['sit-production.up.railway.app', 'localhost', ]
+ALLOWED_HOSTS = ['sit-production.up.railway.app', 'localhost','127.0.0.1' ]
 
 CSRF_TRUSTED_ORIGINS = [
     'http://192.168.200.119:8000',  # Tu IP local
@@ -54,10 +54,12 @@ INSTALLED_APPS = [
     'AppSIT',
     'django_extensions',
     'corsheaders',
+    'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -144,14 +146,17 @@ import os
 
 STATIC_URL = '/static/'
 
+# Asegurar que Django busque los archivos estáticos en AppSIT/static/
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "AppSIT", "static"),
 ]
 
+# Donde `collectstatic` copiará los archivos en producción
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Configuración para servir archivos estáticos en producción
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
 
 
