@@ -15,30 +15,29 @@
 </head>
 
 <body>
-<header>
-    <div id="logotipo">
-        <img src="{% static 'images/logo.png' %}" alt="Logotipo" />
-        <h1>Instituto Tecnológico Superior de Atlixco</h1>
-    </div>
-</header>
+    <header>
+        <div id="header-images">
+            <img src="{% static 'images/gobierno.png' %}" alt="Gobierno de México" />
+            <img src="{% static 'images/educacion.png' %}" alt="Educación" />
+            <img src="{% static 'images/tecnologico.png' %}" alt="Tecnológico Nacional de México" />
+            <img src="{% static 'images/secretaria.png' %}" alt="Secretaría de Educación" />
+            <img src="{% static 'images/logo.png' %}" alt="Instituto Tecnológico Superior de Atlixco" />
+        </div>
+    </header>
+    
 
 <nav>
-    <ul>
+    <div class="hamburger" tabindex="0">☰ Menu</div>
+    <ul class="nav-links">
         <li><a href="{% url 'inicio_docente' %}">Inicio</a></li>
         <li><a href="{% url 'panel_docente' %}">Capturar calificación</a></li>
         <li><a href="{% url 'panel_docente_asistencia' %}">Capturar asistencias</a></li>
         <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
         {% if es_tutor %}
-            <li style="float: right;"><a href="{% url 'inicio_tutor' %}">Tutor &gt;&gt;</a></li>
+            <li><a href="{% url 'inicio_tutor' %}">Tutor &gt;&gt;</a></li>
         {% endif %}
     </ul>
 </nav>
-
-<div class="barra">
-    <samp class="esquina-izquierda"></samp>
-    <samp class="relleno-barra"></samp>
-    <samp class="esquina-derecha"></samp>
-</div>
 
 <div id="content">
     <div class="box">
@@ -50,5 +49,17 @@
 <footer>
     ITSA &copy; Rodrigo Navarro - {% now 'Y' %}
 </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+    
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    });
+    
+</script>
 </body>
 </html>

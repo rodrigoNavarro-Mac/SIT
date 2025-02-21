@@ -15,15 +15,21 @@
 </head>
 
 <body>
+
 <header>
-    <div id="logotipo">
-        <img src="{% static 'images/logo.png' %}" alt="Logotipo" />
-        <h1>Instituto Tecnológico Superior de Atlixco</h1>
+    <div id="header-images">
+        <img src="{% static 'images/gobierno.png' %}" alt="Gobierno de México" />
+        <img src="{% static 'images/educacion.png' %}" alt="Educación" />
+        <img src="{% static 'images/tecnologico.png' %}" alt="Tecnológico Nacional de México" />
+        <img src="{% static 'images/secretaria.png' %}" alt="Secretaría de Educación" />
+        <img src="{% static 'images/logo.png' %}" alt="Instituto Tecnológico Superior de Atlixco" />
     </div>
 </header>
 
+
 <nav>
-    <ul>
+    <div class="hamburger" tabindex="0">☰ Menu</div>
+    <ul class="nav-links">
         <li>
             <a href="{% url 'inicio_coordinador' %}">Inicio</a>
         </li>
@@ -39,11 +45,6 @@
     </ul>
 </nav>
 
-<div class="barra">
-    <samp class="esquina-izquierda"></samp>
-    <samp class="relleno-barra"></samp>
-    <samp class="esquina-derecha"></samp>
-</div>
 
 <div id="content">
     <div class="box">
@@ -56,5 +57,16 @@
     ITSA &copy; Rodrigo Navarro - {% now 'Y' %}
 </footer>
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+    
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    });
+    
+</script>
 </body>
 </html>

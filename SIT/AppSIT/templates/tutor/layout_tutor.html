@@ -17,30 +17,29 @@
 </head>
 
 <body>
+
 <header>
-    <div id="logotipo">
-        <img src="{% static 'images/logo.png' %}" alt="Logotipo" />
-        <h1>Instituto Tecnológico Superior de Atlixco</h1>
+    <div id="header-images">
+        <img src="{% static 'images/gobierno.png' %}" alt="Gobierno de México" />
+        <img src="{% static 'images/educacion.png' %}" alt="Educación" />
+        <img src="{% static 'images/tecnologico.png' %}" alt="Tecnológico Nacional de México" />
+        <img src="{% static 'images/secretaria.png' %}" alt="Secretaría de Educación" />
+        <img src="{% static 'images/logo.png' %}" alt="Instituto Tecnológico Superior de Atlixco" />
     </div>
 </header>
-
 <nav>
-    <ul>
+    <div class="hamburger" tabindex="0">☰ Menu</div>
+    <ul class="nav-links">
         <li><a href="{% url 'inicio_tutor' %}">Inicio</a></li>
         <li><a href="{% url 'seleccion_tutorados'%}">Selección de Tutorados</a></li>
         <li><a href="{% url 'seleccion_materias_docente'%}">Selección de Materias</a></li>
         <li><a href="{% url 'asistencia_tutoria'%}">Asistencia a Tutorías</a></li>
         <li><a href="{% url 'seleccion_alumno' %}">Seguimiento Académico</a></li>
         <li><a href="{% url 'logout'%}">Cerrar sesión</a></li>
-        <li style="float: right;"><a href="{% url 'inicio_docente' %}">Docente &gt;&gt;</a></li>
+        <li><a href="{% url 'inicio_docente' %}">Docente &gt;&gt;</a></li>
     </ul>
 </nav>
 
-<div class="barra">
-    <samp class="esquina-izquierda"></samp>
-    <samp class="relleno-barra"></samp>
-    <samp class="esquina-derecha"></samp>
-</div>
 <div id="content">
     <div class="box">
         {% block content %}
@@ -51,5 +50,17 @@
 <footer>
     ITSA &copy; Rodrigo Navarro - {% now 'Y' %}
 </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+    
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    });
+    
+</script>
 </body>
 </html>

@@ -1,4 +1,6 @@
-from django.contrib.auth import authenticate, login, logout
+from venv import logger
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -16,23 +18,17 @@ from django.urls import reverse
 from rest_framework import viewsets
 from .models import User, Subject, TeacherSubject, Group, StudentGroup, StudentSubject, Grade, ClassSession, Attendance, TutoringSession, TutoringAttendance
 from .serializers import UserSerializer, SubjectSerializer, TeacherSubjectSerializer, GroupSerializer, StudentGroupSerializer, StudentSubjectSerializer, GradeSerializer, ClassSessionSerializer, AttendanceSerializer, TutoringSessionSerializer, TutoringAttendanceSerializer
-
 from django.http import HttpResponse
-from .exports.export_reporte_seguimiento_1erParcial import generar_reporte_seguimiento
+from .exports.Seguimiento_académico import generar_reporte_seguimiento
+from .exports.listas_asistencia_tutorias import generar_listas_asistencia_tutorias
+from .exports.reporte_asistencia import generar_reporte_asistencia
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 
-@login_required
-def exportar_reporte_seguimiento(request):
-    try:
-        wb = generar_reporte_seguimiento()
-        response = HttpResponse(
-            content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
-        response['Content-Disposition'] = 'attachment; filename="reporte_seguimiento_1er_parcial.xlsx"'
-        wb.save(response)
-        return response
-    except Exception as e:
-        return HttpResponse(f"Error al generar el reporte: {str(e)}", status=500)
+
+
+     
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -290,50 +286,78 @@ def seleccion_materias_docente(request):
     }
     return render(request, 'tutor/seleccion_materias_docente.html', context)
 
+from django.http import JsonResponse
+
 @login_required
 def asistencia_tutoria(request):
     tutor = request.user
     students = User.objects.filter(user_type='Estudiante')
+    session_date = timezone.now().date()  # Fecha actual
 
     if request.method == 'POST':
-        session_type = request.POST.get('session_type')
-        session_date = timezone.now().date()
-        print("Post correcto")
+        session_type = request.POST.get('session_type', 'group')  # Por defecto grupal
 
         try:
             if session_type == 'group':
+                # Validar que no exista otra sesión grupal en el mismo día
                 existing_sessions = TutoringSession.objects.filter(tutor=tutor, date=session_date, is_group=True)
                 if existing_sessions.exists():
-                    raise ValidationError('Ya existe una sesión grupal para este día.')
+                    return JsonResponse({
+                        'status': 'error',
+                        'message': 'Ya existe una sesión grupal para este día.'
+                    })
 
+                # Crear la sesión grupal
                 session, _ = TutoringSession.objects.get_or_create(tutor=tutor, date=session_date, is_group=True)
 
+                # Registrar asistencia
                 for student in students:
                     status = request.POST.get(f'is_present_{student.id}')
                     is_present = True if status == 'on' else False
                     TutoringAttendance.objects.create(session=session, student=student, is_present=is_present)
 
-                messages.success(request, 'Asistencia grupal registrada correctamente.')
-            else:
+                return JsonResponse({
+                    'status': 'success',
+                    'message': 'Asistencia grupal registrada correctamente.'
+                })
+
+            elif session_type == 'individual':
+                # Registrar sesión individual
                 individual_student_id = request.POST.get('individual_student_id')
                 individual_student = User.objects.get(id=individual_student_id)
+
+                # Validar que no exista otra sesión individual para el mismo estudiante en el mismo día
+                existing_sessions = TutoringSession.objects.filter(
+                    tutor=tutor, date=session_date, is_group=False, attendances__student=individual_student
+                )
+                if existing_sessions.exists():
+                    return JsonResponse({
+                        'status': 'error',
+                        'message': f'Ya existe una sesión individual para el estudiante {individual_student.nombrecompleto()} en este día.'
+                    })
+
                 session, _ = TutoringSession.objects.get_or_create(tutor=tutor, date=session_date, is_group=False)
                 status = request.POST.get('is_present_individual')
                 is_present = True if status == 'on' else False
                 TutoringAttendance.objects.create(session=session, student=individual_student, is_present=is_present)
 
-                messages.success(request, 'Asistencia individual registrada correctamente.')
+                return JsonResponse({
+                    'status': 'success',
+                    'message': f'Asistencia individual registrada correctamente para {individual_student.nombrecompleto()}.'
+                })
 
-            return redirect('asistencia_tutoria')
-        except ValidationError as e:
-            messages.error(request, str(e))
         except Exception as e:
-            messages.error(request, f'Ocurrió un error al registrar la asistencia: {str(e)}')
+            return JsonResponse({
+                'status': 'error',
+                'message': f'Ocurrió un error al registrar la asistencia: {str(e)}'
+            })
 
     context = {
-        'students': students
+        'students': students,
+        'session_date': session_date,  # Enviar la fecha actual
     }
     return render(request, 'tutor/asistencia_tutoria.html', context)
+
 
 @login_required
 def materia_alumno(request):
@@ -389,7 +413,20 @@ def panel_docente(request):
 
 @login_required
 def materia_impartida(request, id):
+    
     materia = get_object_or_404(Subject, id=id)
+
+    logger.info(f"Materia ID: {id}")
+    materia = get_object_or_404(Subject, id=id)
+    logger.info(f"Materia obtenida: {materia}")
+
+    try:
+            asignacion_docente = TeacherSubject.objects.get(subject=materia, teacher=request.user)
+            logger.info(f"Asignación docente encontrada: {asignacion_docente}")
+    except TeacherSubject.DoesNotExist:
+            logger.error(f"No se encontró asignación docente para materia {materia}")
+            return render(request, 'error.html', {'mensaje': 'No imparte esta materia'})
+
 
     try:
         asignacion_docente = TeacherSubject.objects.get(subject=materia, teacher=request.user)
@@ -624,5 +661,184 @@ def seguimiento_academico_individual(request, student_id):
     return render(request, 'tutor/seguimiento_academico_individual.html', context)
 
 
+def exportar_reporte_seguimiento(request):
+    try:
+        # Validar que el usuario es un docente y tiene asignado un grupo
+        if not request.user.is_authenticated or not Group.objects.filter(teacher=request.user).exists():
+            return HttpResponse("Acceso no autorizado. Solo los tutores pueden generar este reporte.", status=403)
+
+        # Generar el reporte pasándole el tutor (request.user)
+        output = generar_reporte_seguimiento(request.user)
+
+        # Preparar la respuesta HTTP para la descarga
+        response = HttpResponse(
+            output,
+            content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+        response['Content-Disposition'] = 'attachment; filename="R04-PC18 Seguimiento académico.xlsx"'
+        return response
+    except ValueError as e:
+        return HttpResponse(str(e), status=400)
+    except Exception as e:
+        return HttpResponse(f"Error al generar el reporte: {str(e)}", status=500)
+    
+    
+import zipfile
+from io import BytesIO
+from django.http import HttpResponse
 
 
+def exportar_asistencia(request):
+    """
+    Exporta las listas de asistencia y el reporte de asistencia como un archivo ZIP.
+    """
+    try:
+        # Validar que el usuario es un docente y tiene asignado un grupo
+        if not request.user.is_authenticated or not Group.objects.filter(teacher=request.user).exists():
+            return HttpResponse("Acceso no autorizado. Solo los tutores pueden generar este reporte.", status=403)
+
+        # Generar ambos archivos
+        listas_asistencia = generar_listas_asistencia_tutorias(request.user, parcial_numero=determinar_parcial_actual())
+        reporte_asistencia = generar_reporte_asistencia(request.user)
+
+        # Crear un buffer para el archivo ZIP
+        zip_buffer = BytesIO()
+
+        with zipfile.ZipFile(zip_buffer, "w") as zip_file:
+            # Agregar la lista de asistencia al ZIP
+            zip_file.writestr("R18-PC18 Lista de asistencia a tutoría Individual-Grupal-S6.xlsx", listas_asistencia.getvalue())
+            # Agregar el reporte de asistencia al ZIP
+            zip_file.writestr("R14-PC18 Reporte de asistencia a tutoría Individual - Grupal.xlsx", reporte_asistencia.getvalue())
+
+        # Preparar la respuesta HTTP para el archivo ZIP
+        zip_buffer.seek(0)
+        response = HttpResponse(
+            zip_buffer,
+            content_type="application/zip"
+        )
+        response['Content-Disposition'] = 'attachment; filename="reportes_asistencia.zip"'
+        return response
+
+    except ValueError as e:
+        return HttpResponse(str(e), status=400)
+    except FileNotFoundError as e:
+        return HttpResponse(f"Archivo base no encontrado: {str(e)}", status=404)
+    except Exception as e:
+        return HttpResponse(f"Error al generar los reportes: {str(e)}", status=500)
+
+
+
+
+def determinar_parcial_actual():
+    """
+    Lógica para determinar el parcial actual.
+    Puedes ajustar esto según las fechas del ciclo escolar o parámetros dinámicos.
+    """
+    from datetime import date
+    hoy = date.today()
+
+    if 1 <= hoy.month <= 3:
+        return "1er Parcial"  # Primer parcial
+    elif 4 <= hoy.month <= 6:
+        return "2do Parcial"  # Segundo parcial
+    elif 7 <= hoy.month <= 9:
+        return "3er Parcial"  # Tercer parcial
+    else:
+        return "4to Parcial"  # Cuarto parcial
+
+
+@api_view(['POST'])
+def mobile_login_view(request):
+    """
+    Maneja el inicio de sesión solo para la aplicación móvil.
+    Recibe las credenciales de inicio de sesión como datos JSON.
+    """
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    # Autenticación de usuario
+    user = authenticate(username=username, password=password)
+
+    if user is not None:
+        # Generar el nombre completo
+        full_name = f"{user.first_name} {user.last_name}"
+
+        # Datos del usuario que enviaremos a la app móvil
+        user_data = {
+            'user_id': user.id,
+            'username': user.username,
+            'full_name': full_name,  # Enviar el nombre completo aquí
+            'user_type': getattr(user, 'user_type', 'unknown'),  # Tipo de usuario (Ejemplo: Docente)
+        }
+
+        return JsonResponse({
+            'message': 'Login exitoso',
+            'status': 'success',
+            'user_data': user_data
+        })
+    else:
+        return JsonResponse({
+            'message': 'Credenciales inválidas',
+            'status': 'error'
+        }, status=400)
+        
+def get_teacher_subjects(request, username):
+    """
+    Obtiene las materias asignadas al docente con el nombre de usuario proporcionado.
+    """
+    try:
+        # Obtén el usuario docente
+        teacher = User.objects.get(username=username, user_type='Docente')
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Usuario no encontrado o no es docente'}, status=404)
+
+    # Obtener las materias del docente
+    teacher_subjects = TeacherSubject.objects.filter(teacher=teacher).select_related('subject').order_by('subject__semester')
+
+    materias_list = []
+    for ts in teacher_subjects:
+        materias_list.append({
+            'subject_name': ts.subject.subject_name,
+            'semester': ts.subject.semester,
+        })
+
+    # Devolver la respuesta como JSON
+    return JsonResponse({'materias': materias_list})
+
+@api_view(['GET'])
+def get_students_by_subject_name(request, subject_name):
+    """
+    Obtiene la lista de estudiantes para una materia específica usando el nombre de la materia
+    """
+    try:
+        # Obtener la materia por nombre
+        subject = Subject.objects.get(subject_name=subject_name)
+        
+        # Obtener los estudiantes de la materia
+        students = StudentSubject.objects.filter(subject=subject)
+        
+        # Crear lista de estudiantes con su información
+        students_list = []
+        for enrollment in students:
+            students_list.append({
+                'id': enrollment.student.id,
+                'full_name': enrollment.student.nombrecompleto(),  # Llamar al método 'nombrecompleto'
+                'status': 'Pendiente'  # Estado inicial de asistencia
+            })
+        
+        return Response({
+            'success': True,
+            'subject_name': subject.subject_name,
+            'students': students_list
+        }, status=status.HTTP_200_OK)
+        
+    except Subject.DoesNotExist:
+        return Response({
+            'success': False,
+            'error': 'Materia no encontrada'
+        }, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({
+            'success': False,
+            'error': str(e)
+        }, status=status.HTTP_400_BAD_REQUEST)

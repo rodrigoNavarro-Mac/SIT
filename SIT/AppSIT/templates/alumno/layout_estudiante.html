@@ -16,17 +16,22 @@
 </head>
 
 <body>
+
 <header>
-    <div id="logotipo">
-        
-        <img src="{% static 'images/logo.png' %}" />
-
-        <h1> Instituto Tecnologico Superior de Atlixco </h1>
-
+    <div id="header-images">
+        <img src="{% static 'images/gobierno.png' %}" alt="Gobierno de México" />
+        <img src="{% static 'images/educacion.png' %}" alt="Educación" />
+        <img src="{% static 'images/tecnologico.png' %}" alt="Tecnológico Nacional de México" />
+        <img src="{% static 'images/secretaria.png' %}" alt="Secretaría de Educación" />
+        <img src="{% static 'images/logo.png' %}" alt="Instituto Tecnológico Superior de Atlixco" />
     </div>
 </header>
 
+
+
 <nav>
+    <div class="hamburger" tabindex="0">☰ Menu</div>
+    <ul class="nav-links">
     <ul>
         <li>
             <a href="{% url 'inicio_estudiante' %}">Inicio</a>
@@ -37,13 +42,7 @@
         </li>
     </ul>
 </nav>
-<div class= "barra">
-    <samp class="esquina-izquierda"></samp>
-    <samp class="relleno-barra"></samp>
-    <samp class="esquina-derecha"></samp>
 
-
-</div>
     <div id="content">
 
         <div class=" box">

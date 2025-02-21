@@ -4,6 +4,7 @@
 
 {% block content %}
 <div class="container">
+
     <h1 class="title">Seleccionar Alumno</h1>
 
     <form id="selectStudentForm" method="post" action="{% url 'seleccion_alumno' %}" class="form-students">
@@ -40,6 +41,11 @@
             </div>
             {% endfor %}
         </div>
+        {% if es_tutor %}
+        <a href="{% url 'exportar_reporte_seguimiento' %}" class="mi-boton">Descargar Reporte de Seguimiento</a>
+    {% else %}
+        <p>No tienes permisos para generar este reporte.</p>
+    {% endif %}
 </div>
 
 <!-- SweetAlert2 -->

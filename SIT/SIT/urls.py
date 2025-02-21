@@ -43,6 +43,9 @@ urlpatterns = [
     path('seleccion_alumno/', views.seleccion_alumno, name='seleccion_alumno'),
     path('seguimiento_academico/<int:student_id>/', views.seguimiento_academico_individual, name='seguimiento_academico_individual'),
     path('appsit/', include('AppSIT.urls')),
+    path('api/mobile/login/', views.mobile_login_view, name='mobile-login'),
+    path('mobile/get_materias/<str:username>/', views.get_teacher_subjects, name='get_teacher_subjects'),
+    path('mobile/get_students/<str:subject_name>/', views.get_students_by_subject_name, name='get_students_by_subject_name'),
     path('', include(router.urls)),  # Incluye las rutas del router
 ]
 

@@ -931,3 +931,832 @@ label {
 .subject-credits, .subject-period {
     color: #555;
 }
+
+/* Navigation Styles */
+nav {
+    background-color: #23282b;
+    padding: 10px 20px;
+    position: relative;
+}
+
+nav .hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #fff;
+}
+
+nav ul.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul.nav-links li {
+    margin: 0 10px;
+}
+
+nav ul.nav-links li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+nav ul.nav-links li a:hover {
+    background-color: #444;
+}
+
+/* Mobile-specific styles */
+@media screen and (max-width: 768px) {
+    nav .hamburger {
+        display: block;
+    }
+    nav ul.nav-links {
+        display: none;
+        flex-direction: column;
+        background-color: #23282b;
+        position: absolute;
+        top: 40px;
+        left: 0;
+        width: 100%;
+    }
+    nav ul.nav-links li {
+        text-align: center;
+        margin: 0;
+    }
+    nav ul.nav-links.active {
+        display: flex;
+    }
+}
+
+/* Hide barra for mobile */
+@media screen and (max-width: 768px) {
+    .barra {
+        display: none;
+    }
+}
+
+/* Responsive Images */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Specific adjustments for #logotipo img on mobile */
+@media screen and (max-width: 768px) {
+    #logotipo img {
+        width: 80px;
+        height: auto;
+    }
+}
+
+/* Full-width adjustments for header, nav, and content */
+header {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #23282b;
+}
+
+#logotipo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#logotipo img {
+    max-width: 80px;
+    margin: 0 10px;
+}
+
+#logotipo h1 {
+    font-size: 18px;
+    color: white;
+}
+
+nav {
+    width: 100%;
+    background-color: #23282b;
+    padding: 10px 0;
+}
+
+#content {
+    width: 100%;
+    padding: 10px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* Specific adjustments for mobile */
+@media screen and (max-width: 768px) {
+    header {
+        flex-direction: column;
+    }
+
+    nav {
+        padding: 10px 0;
+    }
+
+    #content {
+        padding: 10px 15px;
+    }
+}
+
+/* Fix spacing below the footer */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#content {
+    flex: 1;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+    background-color: #23282b;
+    color: white;
+    padding: 10px 0;
+    margin-top: auto;
+}
+
+/* Ensure footer is properly positioned at the bottom */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+#content {
+    flex: 1 0 auto; /* Ensures content fills the remaining space */
+}
+
+footer {
+    flex-shrink: 0; /* Prevent footer from shrinking */
+    margin: 0;
+}
+
+/* Center navigation content for desktop */
+nav ul.nav-links {
+    justify-content: center; /* Center content in the navigation bar */
+}
+
+/* Adjustments for desktop screens */
+@media screen and (min-width: 1024px) {
+    nav ul.nav-links {
+        justify-content: center; /* Ensure center alignment for large screens */
+    }
+}
+
+/* Ensure content and header alignment */
+header {
+    max-width: 1200px; /* Limit maximum width */
+    margin: 0 auto; /* Center header */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#content {
+    max-width: 1200px; /* Limit maximum width */
+    margin: 0 auto; /* Center content */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+footer {
+    max-width: 1200px; /* Limit maximum width */
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Prevent overflow in text and containers */
+.box, #content {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+}
+
+.box h1, .box p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure no overflow in child elements */
+.box .subject-item {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 10px; /* Add spacing between items */
+}
+
+.subject-item span {
+    white-space: nowrap; /* Prevent text from stretching too far */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    max-width: 100%; /* Ensure it respects the container width */
+}
+
+.box {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Fix for buttons (mi-boton) */
+.mi-boton {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    text-align: center;
+    white-space: nowrap; /* Prevent text from stretching */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis if text is too long */
+}
+
+/* Fix for dropdowns */
+.dropdown-select {
+    max-width: 100%;
+    white-space: nowrap; /* Prevent text from breaking */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    cursor: pointer;
+}
+
+/* Fix for mi-boton alignment and text overflow */
+.mi-boton {
+    max-width: 100%; /* Ensure it doesn't exceed the container */
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap; /* Prevent wrapping */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Add ellipsis for overflowing text */
+    padding: 10px 20px; /* Add consistent padding */
+    box-sizing: border-box; /* Include padding in width calculation */
+    margin: 0 auto; /* Center the button if it's block-level */
+}
+
+/* Responsive tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto; /* Allow columns to adjust based on content */
+    overflow-x: auto;
+}
+
+table th, table td {
+    padding: 8px;
+    text-align: left;
+    word-wrap: break-word; /* Break long words */
+    overflow-wrap: break-word; /* Ensure text wraps properly */
+}
+
+table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+table td {
+    max-width: 200px; /* Set a maximum width for columns */
+    text-overflow: ellipsis; /* Truncate long text with ellipsis */
+    overflow: hidden;
+}
+
+/* Ensure table container handles overflow */
+.table-container {
+    overflow-x: auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Ensure table adapts fully on smaller screens */
+.table-container {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+/* Table adjustments for small screens */
+@media screen and (max-width: 768px) {
+    table {
+        width: 100%;
+        table-layout: fixed; /* Force columns to share space evenly */
+    }
+
+    table th, table td {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal; /* Allow text to break into multiple lines */
+        text-align: left; /* Ensure proper alignment */
+    }
+
+    table td {
+        max-width: none; /* Remove max-width on small screens */
+    }
+}
+
+/* Full-width header and footer for desktop */
+header, footer {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 10px 0;
+    box-sizing: border-box;
+}
+
+@media screen and (min-width: 1024px) {
+    header {
+        background-color: #23282b;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 40px;
+    }
+
+    footer {
+        background-color: #23282b;
+        color: #fff;
+        text-align: center;
+        padding: 15px 40px;
+    }
+}
+
+/* Updated Color Palette */
+:root {
+    --primary-color: #8B1C30; /* Dark red */
+    --secondary-color: #C94B63; /* Light red */
+    --text-color: #FFFFFF; /* White */
+    --background-color: #4A4A4A; /* Dark gray */
+    --border-color: #E0E0E0; /* Light gray */
+    --secondary-text-color: #212121; /* Soft black */
+}
+
+/* Apply the color palette */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+nav {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+nav a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+nav a:hover {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+footer {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+table th {
+    background-color: var(--border-color);
+    color: var(--secondary-text-color);
+}
+
+table td {
+    border: 1px solid var(--border-color);
+    color: var(--secondary-text-color);
+}
+
+.mi-boton {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.mi-boton:hover {
+    background-color: var(--secondary-color);
+}
+
+.dropdown-select {
+    background-color: var(--text-color);
+    color: var(--secondary-text-color);
+    border: 1px solid var(--border-color);
+}
+
+/* Adjust header and background colors */
+header {
+    background-color: #FFFFFF; /* White header */
+    color: #212121; /* Black text */
+}
+
+body {
+    background-color: #FAFAFA; /* Very light background */
+    color: #212121; /* Black text for better contrast */
+}
+
+footer {
+    background-color: #F5F5F5; /* Light footer background */
+    color: #212121; /* Black text */
+}
+
+nav a {
+    color: #212121; /* Black text for navigation links */
+}
+
+nav a:hover {
+    background-color: #E0E0E0; /* Light gray hover effect */
+    color: #212121; /* Black text on hover */
+}
+
+/* Ensure header text is visible */
+header {
+    background-color: #FFFFFF; /* Keep header white */
+    color: #8B1C30; /* Add red for logo and main title text */
+}
+
+nav {
+    background-color: #8B1C30; /* Dark red navigation bar */
+}
+
+nav a {
+    color: #FFFFFF; /* White text for better visibility */
+    text-decoration: none;
+}
+
+nav a:hover {
+    background-color: #C94B63; /* Light red hover effect */
+    color: #FFFFFF; /* Keep text white on hover */
+}
+
+/* Ensure header text is visible */
+header h1 {
+    color: #212121; /* Black text for header content */
+}
+
+/* Align footer color with nav */
+footer {
+    background-color: #8B1C30; /* Same dark red as navigation */
+    color: #FFFFFF; /* White text for visibility */
+}
+
+footer a {
+    color: #FFFFFF; /* White links */
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #C94B63; /* Light red hover effect */
+}
+
+/* Align logo and text horizontally in the header */
+#logotipo {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between the logo and the text */
+}
+
+#logotipo img {
+    max-width: 80px; /* Adjust size of the logo */
+    height: auto;
+}
+
+#logotipo h1 {
+    font-size: 1.5em; /* Adjust font size for the header text */
+    color: #212121; /* Ensure text is visible */
+    margin: 0;
+}
+
+/* Increase logo visibility */
+#logotipo {
+    justify-content: center; /* Center the logo horizontally */
+    padding: 20px 0; /* Add padding for visual spacing */
+}
+
+#logotipo img {
+    max-width: 120px; /* Increase logo size */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Make the logo fill the entire header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Remove padding */
+    height: 150px; /* Set a fixed height for the header */
+}
+
+#logotipo {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#logotipo img {
+    width: auto;
+    height: 100%; /* Make the image fill the height of the header */
+    object-fit: cover; /* Ensure the image covers the space proportionally */
+}
+
+/* Header styling with 5 images */
+header {
+    display: flex;
+    justify-content: space-between; /* Distribute images evenly */
+    align-items: center;
+    background-color: #FFFFFF; /* White background for visibility */
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+}
+
+#header-images {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Spread images across full width */
+    gap: 20px; /* Add spacing between images */
+}
+
+#header-images img {
+    height: 50px; /* Adjust height of images */
+    max-width: 100px; /* Ensure they fit properly */
+    object-fit: contain; /* Ensure images maintain aspect ratio */
+}
+
+/* Fix image overflow in header for responsive design */
+#header-images {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow images to wrap on smaller screens */
+    gap: 10px;
+}
+
+#header-images img {
+    height: 40px; /* Adjust height for smaller screens */
+    max-width: 100px; /* Limit maximum width */
+    object-fit: contain; /* Ensure images maintain aspect ratio */
+}
+
+/* Center navigation menu */
+nav ul.nav-links {
+    display: flex;
+    justify-content: center; /* Center the navigation menu */
+    align-items: center;
+    gap: 20px; /* Add spacing between items */
+}
+
+nav ul.nav-links li {
+    list-style: none;
+}
+
+nav ul.nav-links a {
+    text-decoration: none;
+    color: #FFFFFF;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+nav ul.nav-links a:hover {
+    background-color: #C94B63; /* Highlight on hover */
+}
+
+/* Hide navigation links by default */
+nav ul.nav-links {
+    display: none; /* Hide links initially */
+    flex-direction: column; /* Ensure links are stacked */
+    background-color: #23282b; /* Dark background for menu */
+    position: absolute; /* Position menu relative to nav */
+    top: 40px; /* Below the hamburger menu */
+    left: 0;
+    width: 100%; /* Full width */
+    z-index: 1000;
+    padding: 10px 0;
+}
+
+/* Show navigation links when active */
+nav ul.nav-links.active {
+    display: flex; /* Display links when menu is active */
+}
+
+/* Adjust styles for the hamburger menu */
+nav .hamburger {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #FFFFFF;
+    padding: 10px;
+    background-color: #8B1C30; /* Match the nav background */
+    border: none;
+    width: 100%;
+    text-align: left;
+}
+
+/* Center navigation menu in the navigation bar */
+nav ul.nav-links {
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    background-color: #23282b;
+    position: absolute;
+    top: 40px; /* Below the hamburger menu */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    width: auto; /* Adjust width to fit content */
+    z-index: 1000;
+    padding: 10px 0;
+    text-align: center; /* Center text */
+}
+
+/* Show navigation links when active */
+nav ul.nav-links.active {
+    display: flex; /* Display links when menu is active */
+}
+
+/* Adjust hamburger menu to center menu */
+nav .hamburger {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #FFFFFF;
+    padding: 10px;
+    background-color: #8B1C30; /* Match the nav background */
+    border: none;
+    width: 100%;
+    justify-content: center; /* Center the hamburger button */
+    text-align: center;
+}
+
+/* Styles for desktop navigation */
+@media screen and (min-width: 1024px) {
+    nav ul.nav-links {
+        display: flex !important; /* Always show links in desktop view */
+        flex-direction: row; /* Arrange links horizontally */
+        position: static; /* Remove absolute positioning */
+        transform: none; /* Remove centering adjustment */
+        background-color: transparent; /* Transparent background */
+        width: auto; /* Fit content */
+        justify-content: center; /* Center menu on desktop */
+        padding: 0;
+    }
+
+    nav .hamburger {
+        display: none; /* Hide hamburger menu on desktop */
+    }
+}
+
+
+/* Evitar desbordamiento en el diseño */
+* {
+    box-sizing: border-box; /* Asegura cálculos de ancho correctos */
+}
+
+body {
+    overflow-x: hidden; /* Evita el desbordamiento horizontal */
+}
+
+/* Ajustar la barra de navegación */
+nav {
+    width: 100%; /* Ancho completo */
+    max-width: 100%; /* Evita que se desborde */
+    margin: 0 auto; /* Centra el contenido */
+    box-sizing: border-box; /* Asegura que padding y borde no aumenten el tamaño */
+}
+
+/* Ajustar el menú hamburguesa */
+nav .hamburger {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    padding: 10px;
+    max-width: 100%; /* Asegura que no se desborde */
+    background-color: #8B1C30; /* Mantener color rojo original */
+}
+
+/* Ocultar el menú hamburguesa en la vista de login */
+body.login-view nav .hamburger {
+    display: none;
+}
+
+/* Ocultar el menú hamburguesa en pantallas grandes */
+@media screen and (min-width: 1024px) {
+    nav .hamburger {
+        display: none; /* Eliminar menú hamburguesa en escritorio */
+    }
+}
+
+/* Ajustar dropdown de selección de materias */
+.dropdown-select {
+    max-width: 100%; /* Asegura que no exceda el contenedor */
+    white-space: nowrap; /* Evita que el texto se desborde */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Agregar puntos suspensivos si el texto es demasiado largo */
+    padding: 10px;
+    border: 1px solid #ccc; /* Borde limpio */
+    background-color: #fff; /* Fondo blanco */
+    color: #212121; /* Texto visible */
+}
+
+/* Corregir dropdown en pantallas más pequeñas */
+@media screen and (max-width: 768px) {
+    .dropdown-select {
+        width: 100%; /* Asegura que ocupe todo el ancho disponible */
+        max-width: 100%; /* Evita desbordamientos */
+    }
+}
+
+/* Soluciones generales para evitar problemas de diseño */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* Aumentar la altura de la barra de navegación */
+nav {
+    height: 60px; /* Incrementar la altura */
+    display: flex; /* Flexbox para centrar contenido */
+    align-items: center; /* Centrar verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+    background-color: #8B1C30; /* Mantener el color rojo original */
+}
+
+/* Centrar los enlaces de navegación */
+nav ul {
+    display: flex; /* Usar flexbox para alinear los enlaces */
+    list-style: none; /* Quitar viñetas */
+    padding: 0;
+    margin: 0;
+}
+
+/* Ajustar los enlaces */
+nav ul li {
+    margin: 0 15px; /* Espaciado entre enlaces */
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px; /* Tamaño de texto */
+    padding: 5px 10px; /* Espaciado interno */
+}
+
+/* Hover efecto en enlaces */
+nav ul li a:hover {
+    background-color: #72151c; /* Oscurecer ligeramente el color al pasar el mouse */
+    border-radius: 5px;
+}
+
+/* Responsive ajustes */
+@media screen and (max-width: 768px) {
+    nav {
+        height: auto; /* Permitir ajuste dinámico en móvil */
+    }
+
+    nav ul {
+        flex-direction: column; /* Apilar enlaces en móviles */
+        align-items: center; /* Centrar en móvil */
+    }
+
+    nav ul li {
+        margin: 10px 0; /* Espaciado vertical en móviles */
+    }
+}

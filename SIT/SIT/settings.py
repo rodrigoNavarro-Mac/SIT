@@ -31,7 +31,12 @@ SECRET_KEY = 'django-insecure-$^po@#il^jpu%0-q^%383jdq5d%)5%$fawn$f^!h@v%rx6!5@7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.200.119', '127.0.0.1', 'localhost']
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://192.168.200.119:8000',  # Tu IP local
+]
+
 
 
 # Application definition
@@ -47,6 +52,8 @@ INSTALLED_APPS = [
     "import_export",
     'AppSIT.templatetags',
     'AppSIT',
+    'django_extensions',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +64,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'SIT.urls'
@@ -140,3 +149,5 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOW_ALL_ORIGINS =True

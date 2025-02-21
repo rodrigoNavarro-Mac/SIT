@@ -1,8 +1,15 @@
 {% extends "tutor/layout_tutor.html" %}
 
 {% block content %}
+<form method="get" action="{% url 'exportar_asistencia' %}">
+    <button type="submit" class="mi-boton">Exportar Asistencia</button>
+</form>
+
 <div>
     <div class="title">Asistencia de Tutoría</div>
+    <div style="margin-boton: 20px;">
+        <p><strong>Fecha de la sesión:</strong> {{ session_date }}</p>
+    </div>
     <form id="attendanceForm" method="post" action="{% url 'asistencia_tutoria' %}">
         {% csrf_token %}
         <div class="dropdown-select">
@@ -92,15 +99,23 @@ document.getElementById('attendanceForm').addEventListener('submit', function(ev
                 },
                 body: formData
             })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Éxito!',
-                    text: 'Asistencia registrada correctamente.'
-                }).then(() => {
-                    location.reload();
-                });
+                if (data.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: data.message
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else if (data.status === 'error') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message
+                    });
+                }
             })
             .catch(error => {
                 Swal.fire({
