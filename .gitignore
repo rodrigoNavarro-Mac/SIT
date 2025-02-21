@@ -1,0 +1,19 @@
+# Ignorar archivos generados automáticamente
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorar archivos de entorno virtual
+env/
+venv/
+
+# Ignorar archivos de configuración local
+*.log
+*.sqlite3
+*.env
+
+# Ignorar archivos estáticos generados por collectstatic
+SIT/staticfiles/
+
+# Ignorar caché de compilación de Django
+SIT/SIT/__pycache__/
