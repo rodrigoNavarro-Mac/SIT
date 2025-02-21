@@ -34,9 +34,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['sit-production.up.railway.app', 'localhost','127.0.0.1' ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://192.168.200.119:8000',  # Tu IP local
+    "https://sit-production.up.railway.app",
+    "http://localhost:8000",  # Agrega tu entorno local si es necesario
 ]
-
 
 
 # Application definition
