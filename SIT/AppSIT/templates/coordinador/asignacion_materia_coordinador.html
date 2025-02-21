@@ -7,30 +7,7 @@
 <form method="post" action="{% url 'asignacion_materia_coordinador' %}" id="asignacionForm">
   {% csrf_token %}
   <div class="box">
-    <div class="tables-container" style="margin-bottom: 20px;">
-      <h3>Horarios por día</h3>
-      <div class="horario-item" style="margin-bottom: 10px;">
-          <label for="schedule_monday">Lunes:</label>
-          <input type="text" id="schedule_monday" name="schedule_monday" placeholder="HH:MM-HH:MM" class="horario-input">
-      </div>
-      <div class="horario-item" style="margin-bottom: 10px;">
-          <label for="schedule_tuesday">Martes:</label>
-          <input type="text" id="schedule_tuesday" name="schedule_tuesday" placeholder="HH:MM-HH:MM" class="horario-input">
-      </div>
-      <div class="horario-item" style="margin-bottom: 10px;">
-          <label for="schedule_wednesday">Miércoles:</label>
-          <input type="text" id="schedule_wednesday" name="schedule_wednesday" placeholder="HH:MM-HH:MM" class="horario-input">
-      </div>
-      <div class="horario-item" style="margin-bottom: 10px;">
-          <label for="schedule_thursday">Jueves:</label>
-          <input type="text" id="schedule_thursday" name="schedule_thursday" placeholder="HH:MM-HH:MM" class="horario-input">
-      </div>
-      <div class="horario-item">
-          <label for="schedule_friday">Viernes:</label>
-          <input type="text" id="schedule_friday" name="schedule_friday" placeholder="HH:MM-HH:MM" class="horario-input">
-      </div>
-    </div>
-    <h2 class="title">Listado de docentes de la academia</h2>
+    <h1>Listado de docentes de la academia</h2>
     <div class="header-container">
       <button type="button" id="assign-materias" class="mi-boton">Asignar Materias</button>
     </div>
